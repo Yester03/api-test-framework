@@ -1,0 +1,15 @@
+[
+  {"name": "get_post_1", "path": "/posts/1", "expect_status": 200, "assert_json_keys": ["userId","id","title","body"]},
+  {"name": "get_post_2", "path": "/posts/2", "expect_status": 200, "assert_json_keys": ["userId","id","title","body"]},
+  {"name": "get_post_100", "path": "/posts/100", "expect_status": 200, "assert_json_keys": ["userId","id","title","body"]},
+
+  {"name": "get_user_1", "path": "/users/1", "expect_status": 200, "assert_json_keys": ["id","username"]},
+  {"name": "get_comments_post_1", "path": "/comments?postId=1", "expect_status": 200, "expect_array": true, "assert_json_keys": ["postId","id","email","body"]},
+  {"name": "get_todo_1", "path": "/todos/1", "expect_status": 200, "assert_json_keys": ["userId","id","title","completed"]},
+  {"name": "get_album_1", "path": "/albums/1", "expect_status": 200, "assert_json_keys": ["userId","id","title"]},
+  {"name": "get_photo_1", "path": "/photos/1", "expect_status": 200, "assert_json_keys": ["albumId","id","title","url","thumbnailUrl"]},
+
+  {"name": "get_post_1_with_auth_header", "path": "/posts/1", "expect_status": 200, "send_auth": true, "assert_json_keys": ["userId","id","title","body"]},
+
+  {"name": "get_post_999999_record_behavior", "path": "/posts/999999", "expect_status_lt": 500}
+]
