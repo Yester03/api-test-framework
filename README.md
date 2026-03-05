@@ -117,3 +117,18 @@ python tools/seed_sqlite_from_api.py
 - SQL 数据验证
 - Linux 排障基础
 - 测试思维总结
+
+## Day8
+
+实现 pytest + requests 接口自动化
+
+功能：
+
+- pytest 参数化
+- requests 调用 API
+- status code 断言
+- JSON字段断言
+
+当前用例数量：
+
+10+
