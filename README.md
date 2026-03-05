@@ -105,3 +105,15 @@ python tools/seed_sqlite_from_api.py
 - 能用证据链解释：
   - 502：upstream down / port not listening
   - TLS：SNI 与 Host header 区别，`--resolve` 模拟真实域名
+
+## Week1 Summary – API Testing Fundamentals
+
+### 本周目标
+
+完成接口测试基础能力建设，包括：
+
+- API 测试方法
+- Postman 断言
+- SQL 数据验证
+- Linux 排障基础
+- 测试思维总结
