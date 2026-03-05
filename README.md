@@ -132,3 +132,81 @@ python tools/seed_sqlite_from_api.py
 当前用例数量：
 
 10+
+
+## Day9：封装 API Client（Requests Session）
+
+### 目标
+
+将用例中的 `requests.get/post` 统一封装为 `client.get/post`，做到：
+
+- `base_url` 统一管理
+- 复用 `requests.Session()`（连接复用/性能更好）
+- 用例更短、更易维护（更接近企业项目写法）
+
+### 本日改动
+
+新增模块：
+
+- `config/config.py`：集中管理 `BASE_URL`、默认超时等配置
+- `core/client.py`：封装 `APIClient`，提供 `request/get/post` 方法
+
+用例改造：
+
+- `tests/test_posts.py` 从 `requests.get(url)` 改为 `client.get(path)`
+
+### 目录结构
+
+```text
+api-test-framework
+├─ tests/
+│  └─ test_posts.py
+├─ core/
+│  └─ client.py
+├─ config/
+│  └─ config.py
+├─ data/
+├─ reports/
+└─ requirements.txt
+```
+
+## Day10：断言层（Assertion Layer）
+
+### 目标
+
+将测试用例中的“裸断言”抽象为统一的断言工具（Assertion Helpers），让用例更短、更一致、更易维护，并且在失败时输出更可读的错误信息（包含 `url/status/body/json` 等关键上下文）。
+
+### 本日改动
+
+新增模块：
+
+- `core/assertions.py`
+  - `assert_status(resp, expected)`：状态码断言（失败时打印 url/status/body）
+  - `assert_status_in(resp, {..})`：状态码集合断言（适用于 200/404 等多分支预期）
+  - `assert_json_has_keys(resp, keys)`：JSON 必要字段存在断言
+  - `assert_json_value(resp, key, expected)`：JSON 字段值断言
+  - `assert_json_path_value(resp, "a.b.c", expected)`：嵌套字段 JSON Path 断言（可选）
+  - 内部工具：`_safe_json/_safe_text`（JSON 解析失败也能输出可读信息）
+
+用例改造：
+
+- `tests/test_posts.py`
+  - 将 `assert r.status_code == ...`、`r.json()["xx"] == ...` 替换为断言层函数
+  - 删除不再使用的 `requests` import
+  - 对不确定返回（如 200/404）使用 `assert_status_in`
+
+### 目录结构
+
+```text
+api-test-framework
+├─ tests/
+│  └─ test_posts.py
+├─ core/
+│  ├─ client.py
+│  └─ assertions.py
+├─ config/
+│  └─ config.py
+├─ data/
+├─ reports/
+└─ requirements.txt
+```
+
