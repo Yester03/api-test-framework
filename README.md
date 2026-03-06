@@ -118,9 +118,7 @@ python tools/seed_sqlite_from_api.py
 - Linux 排障基础
 - 测试思维总结
 
-## Day8
-
-实现 pytest + requests 接口自动化
+## Day8 实现 pytest + requests 接口自动化
 
 功能：
 
@@ -210,3 +208,36 @@ api-test-framework
 └─ requirements.txt
 ```
 
+## day11 DDT 数据驱动测试
+
+Step 1：安装依赖
+
+```bash
+pip install pyyaml
+```
+
+Step 2：实现数据加载器
+
+创建：`core/data_loader.py`
+
+支持读取 `.yaml/.yml/.json`
+
+校验 cases 必须存在且非空
+
+提供 `to_parametrize()` 输出 `(cases, ids)`
+
+Step 3：改造/新增数据驱动用例
+
+创建：`tests/test_posts_ddt.py`
+
+`pytest.mark.parametrize("case", cases, ids=ids)`
+
+用 `APIClient().request(...)` 发请求
+
+用 `assertions.py` 的断言函数做校验
+
+Step 4：运行与验证
+
+```bash
+pytest -q
+```
